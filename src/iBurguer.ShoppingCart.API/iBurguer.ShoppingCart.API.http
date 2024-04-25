@@ -1,0 +1,6 @@
+@iBurguer.ShoppingCart.API_HostAddress = http://localhost:5095
+
+GET {{iBurguer.ShoppingCart.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
