@@ -10,6 +10,8 @@ src/iBurguer.ShoppingCart.API/appsettings.Development.json
 
 # Build results
 
+.vs
+
 [Dd]ebug/
 [Rr]elease/
 x64/
