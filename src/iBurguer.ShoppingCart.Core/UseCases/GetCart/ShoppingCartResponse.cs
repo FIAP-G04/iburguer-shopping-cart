@@ -20,10 +20,11 @@ public record ShoppingCartResponse
             CustomerId = shoppingCart.CustomerId,
             CreatedAt = shoppingCart.CreatedAt,
             UpdatedAt = shoppingCart.UpdatedAt,
-            Total = shoppingCart.Total
+            Total = shoppingCart.Total,
+            Closed = shoppingCart.Closed
         };
 
-        if (response.Items.Any())
+        if (shoppingCart.Items.Any())
         {
             response.Items = shoppingCart.Items.Select(item => ShoppingCartItemResponse.Convert(item)).ToList();
         }

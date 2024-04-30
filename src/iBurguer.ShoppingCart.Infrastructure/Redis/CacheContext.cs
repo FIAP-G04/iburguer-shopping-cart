@@ -1,10 +1,5 @@
-using System.Runtime.Serialization.Json;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using iBurguer.ShoppingCart.Core.Abstractions;
 using iBurguer.ShoppingCart.Core.Domain;
-using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace iBurguer.ShoppingCart.Infrastructure.Redis;
@@ -31,10 +26,13 @@ public class CacheContext : ICacheContext
     {
         var db = _redis.GetDatabase();
 
-        var serialized = JsonSerializer.Serialize(value, new JsonSerializerOptions()
+        var serialized = JsonConvert.SerializeObject(value, new JsonSerializerSettings
         {
-            IgnoreReadOnlyProperties = false,
-            Converters = { new ProductTypeJsonConverter() }
+            Converters = {
+                    new ProductTypeJsonConverter(),
+                    new PriceJsonConverter(),
+                    new QuantityJsonConverter() 
+            }
         });
 
         await db.StringSetAsync($"{groupName}.{key}", serialized, _expire);
@@ -48,11 +46,13 @@ public class CacheContext : ICacheContext
 
         if (!string.IsNullOrEmpty(value))
         {
-            return JsonSerializer.Deserialize<T>(value, new JsonSerializerOptions()
+            return JsonConvert.DeserializeObject<T>(value, new JsonSerializerSettings()
             {
-                IncludeFields = true,
-                IgnoreReadOnlyProperties = false,
-                Converters = { new ProductTypeJsonConverter() }
+                Converters = { 
+                    new ProductTypeJsonConverter(),
+                    new PriceJsonConverter(),
+                    new QuantityJsonConverter()
+                }
                 
             });
         }
@@ -63,15 +63,44 @@ public class CacheContext : ICacheContext
 
 public class ProductTypeJsonConverter : JsonConverter<ProductType>
 {
-    public override ProductType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override ProductType? ReadJson(JsonReader reader, Type objectType, ProductType? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
-        reader.Read();
-        var name = reader.GetString();
+        var name = reader.Value.ToString();
         return ProductType.FromName(name);
     }
 
-    public override void Write(Utf8JsonWriter writer, ProductType value, JsonSerializerOptions options)
+    public override void WriteJson(JsonWriter writer, ProductType? value, JsonSerializer serializer)
     {
-        writer.WriteStringValue(value.ToString());
+        writer.WriteValue(value.ToString());
+    }
+}
+
+public class PriceJsonConverter : JsonConverter<Price>
+{
+    public override Price? ReadJson(JsonReader reader, Type objectType, Price? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var amount = reader.Value.ToString();
+        decimal.TryParse(amount, out var price);
+        return new Price(price);
+    }
+
+    public override void WriteJson(JsonWriter writer, Price? value, JsonSerializer serializer)
+    {
+        writer.WriteValue(value.Amount);
+    }
+}
+
+public class QuantityJsonConverter : JsonConverter<Quantity>
+{
+    public override Quantity? ReadJson(JsonReader reader, Type objectType, Quantity? existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var value = reader.Value.ToString();
+        ushort.TryParse(value, out var quantity);
+        return new Quantity(quantity);
+    }
+
+    public override void WriteJson(JsonWriter writer, Quantity? value, JsonSerializer serializer)
+    {
+        writer.WriteValue(value.Value);
     }
 }
