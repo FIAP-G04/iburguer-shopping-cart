@@ -1,4 +1,5 @@
 using iBurguer.ShoppingCart.Core.Domain;
+using iBurguer.ShoppingCart.Infrastructure.Redis.Models;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
@@ -38,6 +39,17 @@ public class CacheContext : ICacheContext
         await db.StringSetAsync($"{groupName}.{key}", serialized, _expire);
     }
 
+    public async Task Set(string groupName, string key, Cart cart, CancellationToken cancellationToken)
+    {
+        var model = CartModel.Map(cart);
+
+        var db = _redis.GetDatabase();
+
+        var serialized = JsonConvert.SerializeObject(model);
+
+        await db.StringSetAsync($"{groupName}.{key}", serialized, _expire);
+    }
+    /*
     public async Task<T?> Get<T>(string groupName, string key, CancellationToken cancellationToken) where T : class
     {
         var db = _redis.GetDatabase();
@@ -58,6 +70,19 @@ public class CacheContext : ICacheContext
         }
 
         return null;
+    }*/
+
+    public async Task<Cart?> Get<Cart>(string groupName, string key, CancellationToken cancellationToken) where T : class
+    {
+        var db = _redis.GetDatabase();
+
+        var value = await db.StringGetAsync($"{groupName}.{key}");
+
+        if (!string.IsNullOrEmpty(value))
+        {
+            var model =  JsonConvert.DeserializeObject<CartModel>(value);
+            //return CartModel.Map()
+        }
     }
 }
 

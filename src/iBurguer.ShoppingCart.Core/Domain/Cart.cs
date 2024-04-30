@@ -139,5 +139,4 @@ public class Cart : Entity<Guid>, IAggregateRoot
     {
         return _items.FirstOrDefault(item => item.Product.ProductId == productId);
     }
-    
 }
