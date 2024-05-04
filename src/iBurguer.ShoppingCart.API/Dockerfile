@@ -7,10 +7,12 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/iBurguer.ShoppingCart.API/iBurguer.ShoppingCart.API.csproj", "src/iBurguer.ShoppingCart.API/"]
-RUN dotnet restore "src/iBurguer.ShoppingCart.API/iBurguer.ShoppingCart.API.csproj"
+COPY ["iBurguer.ShoppingCart.API/iBurguer.ShoppingCart.API.csproj", "iBurguer.ShoppingCart.API/"]
+COPY ["iBurguer.ShoppingCart.Core/iBurguer.ShoppingCart.Core.csproj", "iBurguer.ShoppingCart.Core/"]
+COPY ["iBurguer.ShoppingCart.Infrastructure/iBurguer.ShoppingCart.Infrastructure.csproj", "iBurguer.ShoppingCart.Infrastructure/"]
+RUN dotnet restore "iBurguer.ShoppingCart.API/iBurguer.ShoppingCart.API.csproj"
 COPY . .
-WORKDIR "/src/src/iBurguer.ShoppingCart.API"
+WORKDIR "/src/iBurguer.ShoppingCart.API"
 RUN dotnet build "iBurguer.ShoppingCart.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish

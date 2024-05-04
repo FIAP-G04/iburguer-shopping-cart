@@ -3,9 +3,9 @@
 # Declare variables to be passed into your templates.
 
 image:
-  repository: cdvt/iburguer
-  pullPolicy: IfNotPresent
-  tag: "0.0.1"
+  repository: matheusaoc/iburguer-shopping-cart #cdvt/iburguer-shopping-cart
+  pullPolicy: Always
+  tag: "latest"
 
 nameOverride: ""
 fullnameOverride: ""
@@ -17,8 +17,8 @@ replicas: 1
 
 service:
   type: LoadBalancer
-  port: 80
-  targetPort: 80
+  port: 8081
+  targetPort: 8080
 
 resources:
   limits:
@@ -31,13 +31,13 @@ resources:
 livenessProbe:
   httpGet:
     path: /hc
-    port: 80
+    port: 8080
   initialDelaySeconds: 5
   periodSeconds: 5
 readinessProbe:
   httpGet:
     path: /hc
-    port: 80
+    port: 8080
   initialDelaySeconds: 5
   periodSeconds: 5
 
@@ -52,7 +52,7 @@ nodeSelector: {}
 
 configmap:
   redis:
-    connectionString: "localhost:6739"
-    password: 12345
+    connectionString: "iburguer-cache-cluster.f5keju.0001.use1.cache.amazonaws.com:6379"
+    password: "p1VTSsrRWKzYp1VTSsrRWKzY"
   menuApi:
-    url: "https://localhost:7107"
+    url: "http://iburguer-menu:8080"
