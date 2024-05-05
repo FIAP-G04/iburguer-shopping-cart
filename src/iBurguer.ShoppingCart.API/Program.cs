@@ -13,7 +13,10 @@ builder
     .AddWebApi()
     .AddUseCases();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 app.UseWebApi();
+app.MapHealthChecks("/hc");
 app.Run();

@@ -1,11 +1,14 @@
 using iBurguer.ShoppingCart.Core.Abstractions;
+using Newtonsoft.Json;
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
 public class Product
 {
     public Guid ProductId { get; set; }
+    [JsonProperty]
     public string Name { get; private set; }
+    [JsonProperty]
     public ProductType Type { get; private set; }
     public Price Price { get; private set; }
 

@@ -19,7 +19,7 @@ public record RedisConfiguration
     /// <summary>
     /// The time in minutes that an object will be removed from the cache if it hasn't been accessed.
     /// </summary>
-    public int SlidingExpirationInMinutes { get; set; } = 5;
+    public int SlidingExpirationInMinutes { get; set; } = 29;
 
     /// <summary>
     /// Validates the Redis configuration.

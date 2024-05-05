@@ -1,13 +1,18 @@
 using iBurguer.ShoppingCart.Core.Abstractions;
+using Newtonsoft.Json;
 using static iBurguer.ShoppingCart.Core.Domain.Exceptions; 
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
 public class Cart : Entity<Guid>, IAggregateRoot
 {
+    [JsonProperty("Items")]
     private IList<CartItem> _items = new List<CartItem>();
 
+    [JsonProperty]
     public Guid? CustomerId { get; private set; }
+
+    [JsonProperty]
     public bool Closed { get; private set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
@@ -37,7 +42,8 @@ public class Cart : Entity<Guid>, IAggregateRoot
         }
     }
 
-    public IReadOnlyList<CartItem> Items => _items.ToList();
+    [JsonIgnore]
+    public IReadOnlyCollection<CartItem> Items => _items.AsReadOnly();
 
     public CartItem AddCartItem(Product product, Quantity quantity)
     {
