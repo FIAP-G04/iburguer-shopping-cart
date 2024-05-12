@@ -1,6 +1,6 @@
 using iBurguer.ShoppingCart.Core.Domain;
 using iBurguer.ShoppingCart.Core.Gateways;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions;
+using static iBurguer.ShoppingCart.Core.Exceptions;
 
 namespace iBurguer.ShoppingCart.Core.UseCases.AddItem;
 
@@ -27,11 +27,11 @@ public class AddItemToShoppingCartUseCase : IAddItemToShoppingCartUseCase
     {
         var shoppingCart = await _repository.GetById(request.ShoppingCartId, cancellation);
 
-        ShoppingCartNotFound.ThrowIfNull(shoppingCart);
+        ShoppingCartNotFoundException.ThrowIfNull(shoppingCart);
 
         var product = await _gateway.GetProductDetailsFromTheMenu(request.ProductId, cancellation);
 
-        ProductNotFound.ThrowIfNull(product);
+        ProductNotFoundException.ThrowIfNull(product);
 
         var cartItem = shoppingCart!.AddCartItem(product, request.Quantity);
 

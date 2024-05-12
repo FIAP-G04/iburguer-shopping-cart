@@ -1,6 +1,6 @@
 using iBurguer.ShoppingCart.Core.Abstractions;
 using Newtonsoft.Json;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions; 
+using static iBurguer.ShoppingCart.Core.Exceptions; 
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
@@ -24,7 +24,7 @@ public class Cart : Entity<Guid>, IAggregateRoot
 
     public static Cart CreateCustomerShoppingCart(Guid customerId)
     {
-        InvalidCustomerId.ThrowIf(customerId == Guid.Empty);
+        InvalidCustomerIdException.ThrowIf(customerId == Guid.Empty);
         
         return new Cart { Id = Guid.NewGuid(), CustomerId = customerId, Closed = false, CreatedAt = DateTime.Now};
     }
@@ -104,7 +104,7 @@ public class Cart : Entity<Guid>, IAggregateRoot
 
     public void Close()
     {
-        UnableToCloseWithoutAnyCartItems.ThrowIf(!Items.Any());
+        UnableToCloseWithoutAnyCartItemsException.ThrowIf(!Items.Any());
 
         Closed = true;
         
@@ -117,20 +117,20 @@ public class Cart : Entity<Guid>, IAggregateRoot
 
         var item = GetCartItemByProduct(product);
         
-        ProductNotPresentInCart.ThrowIfNull(item);
+        ProductNotPresentInCartException.ThrowIfNull(item);
         
         UpdatedAt = DateTime.Now;
         
         item!.UpdatePrice(price);
     }
 
-    private void CheckIfTheShoppingCartIsClosed() => CannotUpdateClosedCart.ThrowIf(Closed);
+    private void CheckIfTheShoppingCartIsClosed() => CannotUpdateClosedCartException.ThrowIf(Closed);
 
     public CartItem GetCartItemById(Guid id)
     {
         var item = _items.FirstOrDefault(i => Equals(i.CartItemId, id));
 
-        ItemNotPresentInCart.ThrowIfNull(item);
+        ItemNotPresentInCartException.ThrowIfNull(item);
 
         return item!;
     }

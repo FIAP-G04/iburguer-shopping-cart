@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using iBurguer.ShoppingCart.Core.UseCases.AddItem;
+using iBurguer.ShoppingCart.Core.UseCases.Checkout;
 using iBurguer.ShoppingCart.Core.UseCases.ClearCart;
 using iBurguer.ShoppingCart.Core.UseCases.CloseCart;
 using iBurguer.ShoppingCart.Core.UseCases.CreateAnonymousCart;
@@ -29,7 +30,8 @@ public static class UseCaseHostApplicationExtensions
             .AddScoped<IIncrementTheQuantityOfTheCartItemUseCase, IncrementTheQuantityOfTheCartItemUseCase>()
             .AddScoped<IRemoveCartItemFromShoppingCartUseCase, RemoveCartItemFromShoppingCartUseCase>()
             .AddScoped<IUpdateCartItemPriceThroughProductUseCase, UpdateCartItemPriceThroughProductUseCase>()
-            .AddScoped<IGetCartUseCase, GetCartUseCase>();
+            .AddScoped<IGetCartUseCase, GetCartUseCase>()
+            .AddScoped<ICheckoutUseCase, CheckoutUseCase>();
 
         return builder;
     }

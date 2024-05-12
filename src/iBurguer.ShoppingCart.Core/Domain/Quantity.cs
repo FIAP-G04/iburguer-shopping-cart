@@ -1,5 +1,5 @@
 using iBurguer.ShoppingCart.Core.Abstractions;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions; 
+using static iBurguer.ShoppingCart.Core.Exceptions; 
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
@@ -14,7 +14,7 @@ public sealed record Quantity
         get => _value;
         private set
         {
-            InvalidQuantity.ThrowIf(value < 1);
+            InvalidQuantityException.ThrowIf(value < 1);
 
             _value = value;
         }

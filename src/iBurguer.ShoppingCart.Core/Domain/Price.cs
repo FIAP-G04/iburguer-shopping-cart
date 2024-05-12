@@ -1,5 +1,5 @@
 using System.Globalization;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions; 
+using static iBurguer.ShoppingCart.Core.Exceptions; 
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
@@ -9,7 +9,7 @@ public sealed record Price
 
     public Price(decimal amount)
     {
-        InvalidPrice.ThrowIf(amount < 0);
+        InvalidPriceException.ThrowIf(amount < 0);
 
         Amount = amount;
     }

@@ -1,6 +1,6 @@
 using System.Reflection;
 using System.Runtime.Serialization;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions;
+using static iBurguer.ShoppingCart.Core.Exceptions;
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
@@ -59,7 +59,7 @@ public class ProductType
             
         })?.GetValue(null) as ProductType;
 
-        Exceptions.InvalidProductType.ThrowIfNull(productType);
+        Exceptions.InvalidProductTypeException.ThrowIfNull(productType);
         
         return productType;
     }

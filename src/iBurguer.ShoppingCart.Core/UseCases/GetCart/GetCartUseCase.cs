@@ -1,5 +1,5 @@
 using iBurguer.ShoppingCart.Core.Domain;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions;
+using static iBurguer.ShoppingCart.Core.Exceptions;
 
 namespace iBurguer.ShoppingCart.Core.UseCases.GetCart;
 
@@ -22,7 +22,7 @@ public class GetCartUseCase : IGetCartUseCase
     {
         var shoppingCart = await _repository.GetById(shoppingCartId, cancellation);
 
-        ShoppingCartNotFound.ThrowIfNull(shoppingCart);
+        ShoppingCartNotFoundException.ThrowIfNull(shoppingCart);
 
         return ShoppingCartResponse.Convert(shoppingCart);
     }

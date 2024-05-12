@@ -1,5 +1,5 @@
 using iBurguer.ShoppingCart.Core.Domain;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions;
+using static iBurguer.ShoppingCart.Core.Exceptions;
 
 namespace iBurguer.ShoppingCart.Core.UseCases.DecrementCartItem;
 
@@ -22,7 +22,7 @@ public class DecrementTheQuantityOfTheCartItemUseCase : IDecrementTheQuantityOfT
     {
         var shoppingCart = await _repository.GetById(request.ShoppingCartId, cancellation);
 
-        Exceptions.ShoppingCartNotFound.ThrowIfNull(shoppingCart);
+        Exceptions.ShoppingCartNotFoundException.ThrowIfNull(shoppingCart);
 
         shoppingCart!.DecrementTheQuantityOfTheCartItem(request.CartItemId, request.quantity);
 

@@ -3,8 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 namespace iBurguer.ShoppingCart.Infrastructure.Http;
 
 [ExcludeFromCodeCoverage]
-public record MenuApiConfiguration
+public abstract class ApiConfiguration
 {
+    public abstract string Tag();
+
     /// <summary>
     /// Menu API URL to which requests will be sent.
     /// </summary>

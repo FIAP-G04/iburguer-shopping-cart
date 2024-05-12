@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using iBurguer.ShoppingCart.Core.Gateways;
+using iBurguer.ShoppingCart.Infrastructure.Http.Menu;
+using iBurguer.ShoppingCart.Infrastructure.Http.Order;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,40 +13,65 @@ namespace iBurguer.ShoppingCart.Infrastructure.Http;
 [ExcludeFromCodeCoverage]
 public static class HttpClientHostApplicationExtensions
 {
-    public static IHostApplicationBuilder AddMenuRestClient(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddRestClient(this IHostApplicationBuilder builder)
     {
-        var configuration = builder.Configuration.GetRequiredSection("MenuApi").Get<MenuApiConfiguration>();
+        var menuConfig = builder.Configuration.GetRequiredSection("Menu").Get<MenuApiConfiguration>();
 
-        configuration!.ThrowIfInvalid();
+        menuConfig!.ThrowIfInvalid();
+        
+        builder.Services.AddSingleton(menuConfig);
+        
+        var orderConfig = builder.Configuration.GetRequiredSection("Order").Get<OrderApiConfiguration>();
+        
+        orderConfig!.ThrowIfInvalid();
+        
+        builder.Services.AddSingleton(orderConfig);
 
-        builder.Services.AddHttpClient<IMenuGateway, MenuApiClient>(options =>
+        builder.AddHttpRestClient<IMenuGateway, MenuApiClient>(menuConfig);
+        builder.AddHttpRestClient<IOrderGateway, OrderApiClient>(orderConfig);
+        
+        return builder;
+    }
+
+    private static IHostApplicationBuilder AddHttpRestClient<TClient, TImplementation>(this IHostApplicationBuilder builder, ApiConfiguration configuration) 
+        where TClient : class
+        where TImplementation : class, TClient
+    {
+        builder.Services.AddHttpClient<TClient, TImplementation>(options =>
         {
             options.BaseAddress = new Uri(configuration.Url);
             options.DefaultRequestHeaders.Clear();
         })
-            .AddResilienceHandler("MenuApi", options =>
-        {
-            options
-                .AddRetry(new HttpRetryStrategyOptions()
-                {
-                    MaxRetryAttempts = configuration.MaxRetryAttempts, 
-                    Delay = TimeSpan.FromMilliseconds(configuration.RetryDelay)
-                })
-                .AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions()
-                {
-                    MinimumThroughput = configuration.CircuitBreakerMinimumThroughput, 
-                    BreakDuration = TimeSpan.FromSeconds(configuration.CircuitBreakerBreakDuration)
-                })
-                .AddTimeout(new HttpTimeoutStrategyOptions()
-                {
-                    Timeout = TimeSpan.FromSeconds(configuration.Timeout)
-                });
-        });
+            .AddResilience(configuration);
         
-        builder.Services.AddSingleton(configuration);
-        
-        builder.Services.AddScoped<IMenuGateway, MenuApiClient>();
+        builder.Services.AddScoped<TClient, TImplementation>();
 
+        return builder;
+    }
+    
+
+    private static IHttpClientBuilder AddResilience(this IHttpClientBuilder builder, ApiConfiguration configuration)
+    {
+        builder
+            .AddResilienceHandler(configuration.Tag(), options =>
+            {
+                options
+                    .AddRetry(new HttpRetryStrategyOptions()
+                    {
+                        MaxRetryAttempts = configuration.MaxRetryAttempts, 
+                        Delay = TimeSpan.FromMilliseconds(configuration.RetryDelay)
+                    })
+                    .AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions()
+                    {
+                        MinimumThroughput = configuration.CircuitBreakerMinimumThroughput, 
+                        BreakDuration = TimeSpan.FromSeconds(configuration.CircuitBreakerBreakDuration)
+                    })
+                    .AddTimeout(new HttpTimeoutStrategyOptions()
+                    {
+                        Timeout = TimeSpan.FromSeconds(configuration.Timeout)
+                    });
+            });
+        
         return builder;
     }
 }
