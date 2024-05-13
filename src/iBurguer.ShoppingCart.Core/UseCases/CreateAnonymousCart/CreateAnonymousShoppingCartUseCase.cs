@@ -1,5 +1,5 @@
 using iBurguer.ShoppingCart.Core.Domain;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions;
+using static iBurguer.ShoppingCart.Core.Exceptions;
 
 namespace iBurguer.ShoppingCart.Core.UseCases.CreateAnonymousCart;
 

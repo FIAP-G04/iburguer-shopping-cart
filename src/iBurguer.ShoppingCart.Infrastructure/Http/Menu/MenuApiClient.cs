@@ -2,7 +2,7 @@ using System.Text.Json;
 using iBurguer.ShoppingCart.Core.Domain;
 using iBurguer.ShoppingCart.Core.Gateways;
 
-namespace iBurguer.ShoppingCart.Infrastructure.Http;
+namespace iBurguer.ShoppingCart.Infrastructure.Http.Menu;
 
 public class MenuApiClient : IMenuGateway
 {

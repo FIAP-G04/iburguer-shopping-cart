@@ -1,5 +1,5 @@
 using iBurguer.ShoppingCart.Core.Domain;
-using static iBurguer.ShoppingCart.Core.Domain.Exceptions;
+using static iBurguer.ShoppingCart.Core.Exceptions;
 
 namespace iBurguer.ShoppingCart.Core.UseCases.ClearCart;
 
@@ -23,7 +23,7 @@ public class ClearShoppingCartUseCase: IClearShoppingCartUseCase
     {
         var shoppingCart = await _repository.GetById(shoppingCartId, cancellation);
 
-        Exceptions.ShoppingCartNotFound.ThrowIfNull(shoppingCart);
+        Exceptions.ShoppingCartNotFoundException.ThrowIfNull(shoppingCart);
 
         shoppingCart!.Clear();
 

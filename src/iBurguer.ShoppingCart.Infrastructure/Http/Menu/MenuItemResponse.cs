@@ -1,6 +1,6 @@
 using iBurguer.ShoppingCart.Core.Domain;
 
-namespace iBurguer.ShoppingCart.Infrastructure.Http;
+namespace iBurguer.ShoppingCart.Infrastructure.Http.Menu;
 
 public record MenuItemResponse
 {

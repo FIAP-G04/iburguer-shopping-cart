@@ -22,7 +22,7 @@ public class UpdateCartItemPriceThroughProductUseCase : IUpdateCartItemPriceThro
     {
         var shoppingCart = await _repository.GetById(request.ShoppingCartId, cancellation);
 
-        Exceptions.ShoppingCartNotFound.ThrowIfNull(shoppingCart);
+        Exceptions.ShoppingCartNotFoundException.ThrowIfNull(shoppingCart);
 
         shoppingCart!.UpdateItemPriceThroughProduct(request.ProductId, request.Price);
 

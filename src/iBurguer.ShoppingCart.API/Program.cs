@@ -7,7 +7,7 @@ using iBurguer.ShoppingCart.Infrastructure.WebApi;
 var builder = WebApplication.CreateBuilder(args);
 
 builder
-    .AddMenuRestClient()
+    .AddRestClient()
     .AddRedis()
     .AddRepositories()
     .AddWebApi()

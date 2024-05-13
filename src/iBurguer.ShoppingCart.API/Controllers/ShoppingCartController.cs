@@ -1,4 +1,5 @@
 using iBurguer.ShoppingCart.Core.UseCases.AddItem;
+using iBurguer.ShoppingCart.Core.UseCases.Checkout;
 using iBurguer.ShoppingCart.Core.UseCases.ClearCart;
 using iBurguer.ShoppingCart.Core.UseCases.CreateAnonymousCart;
 using iBurguer.ShoppingCart.Core.UseCases.CreateCustomerCart;
@@ -120,6 +121,17 @@ public class ShoppingCartController : ControllerBase
         }
 
         await useCase.DecrementTheQuantityOfTheCartItem(request, cancellationToken);
+        
         return Ok();
+    }
+    
+    [HttpPatch]
+    [Route("{shoppingCartId:guid}/checkout")]
+    [ProducesResponseType(typeof(CheckoutResponse), 201)]
+    public async Task<IActionResult> Checkout([FromServices] ICheckoutUseCase useCase, Guid shoppingCartId, [FromBody]CheckoutRequest request, CancellationToken cancellationToken = default)
+    {
+        var response = await useCase.Checkout(request, cancellationToken);
+        
+        return Created("Order created successfully", response);
     }
 }
