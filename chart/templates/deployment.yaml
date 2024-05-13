@@ -28,11 +28,16 @@ spec:
                 configMapKeyRef:
                   name: {{ include "FIAP.Diner.fullname" . }}
                   key: Redis__ConnectionString
-            - name: MenuApi__Url
+            - name: Menu__Url
               valueFrom:
                 configMapKeyRef:
                   name: {{ include "FIAP.Diner.fullname" . }}
-                  key: MenuApi__Url
+                  key: Menu__Url
+            - name: Order__Url
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "FIAP.Diner.fullname" . }}
+                  key: Order__Url
           ports:
             - containerPort: {{ .Values.service.targetPort }}
           livenessProbe:

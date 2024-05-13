@@ -54,5 +54,7 @@ configmap:
   redis:
     connectionString: "iburguer-cache-cluster.f5keju.0001.use1.cache.amazonaws.com:6379"
     password: "p1VTSsrRWKzYp1VTSsrRWKzY"
-  menuApi:
+  menu:
     url: "http://iburguer-menu:8080"
+  order:
+    url: "http://iburguer-ordering:8082"

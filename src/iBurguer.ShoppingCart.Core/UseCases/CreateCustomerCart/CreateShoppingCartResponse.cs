@@ -1,3 +1,3 @@
 namespace iBurguer.ShoppingCart.Core.UseCases.CreateCustomerCart;
 
-public record CreateShoppingCartResponse(Guid ShoppingCardId, Guid CustomerId);
+public record CreateShoppingCartResponse(Guid ShoppingCartId, Guid CustomerId);
