@@ -8,6 +8,7 @@ metadata:
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "external"
     service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: "instance"
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: "service={{ include "FIAP.Diner.fullname" . }}"
 spec:
   type: {{ .Values.service.type }}
   ports:

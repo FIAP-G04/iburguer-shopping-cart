@@ -7,4 +7,5 @@ metadata:
     {{- include "FIAP.Diner.labels" . | nindent 4 }}
 data:
   Redis__ConnectionString: {{ .Values.configmap.redis.connectionString }},password={{ .Values.configmap.redis.password }}
-  MenuApi__Url: {{ .Values.configmap.menuApi.url }}
+  Menu__Url: {{ .Values.configmap.menu.url }}
+  Order__Url: {{ .Values.configmap.order.url }}
