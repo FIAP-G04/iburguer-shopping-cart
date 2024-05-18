@@ -4,8 +4,8 @@
 
 image:
   repository: cdvt/iburguer-shopping-cart
-  pullPolicy: Always
-  tag: "latest"
+  pullPolicy: IfNotPresent
+  tag: "0.0.1"
 
 nameOverride: ""
 fullnameOverride: ""
