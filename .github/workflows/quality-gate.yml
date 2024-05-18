@@ -105,7 +105,7 @@ jobs:
             helm version
             kubectl version
             kubectl cluster-info
-            helm template iburguer --set configmap.redis.password=${{ secrets.DATABASE_PASSWORD }} --set configmap.redis.connectionString=${{ secrets.REDIS_HOST }} ./chart > k8s/artifacts.yaml
+            helm template iburguer --set configmap.redis.password=${{ secrets.DATABASE_PASSWORD }} --set configmap.redis.connectionString=${{ secrets.REDIS_HOST }} --set image.tag=${{ steps.version.outputs.version }} ./chart > k8s/artifacts.yaml
 
       - name: Deploy to EKS
         run: |
