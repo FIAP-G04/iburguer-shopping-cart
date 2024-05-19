@@ -22,6 +22,6 @@ public static class Exceptions
 
     public class ProductNotFoundException() : DomainException<ProductNotFoundException>("No product was found with the provided Id.");
     
-    public class ProductNotPresentInCartException() : DomainException<ProductNotFoundException>("The product with Id provided does not exist in the cart.");
+    public class ProductNotPresentInCartException() : DomainException<ProductNotPresentInCartException>("The product with Id provided does not exist in the cart.");
 
 }
