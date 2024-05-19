@@ -1,4 +1,3 @@
-using iBurguer.ShoppingCart.Core.Abstractions;
 using Newtonsoft.Json;
 
 namespace iBurguer.ShoppingCart.Core.Domain;

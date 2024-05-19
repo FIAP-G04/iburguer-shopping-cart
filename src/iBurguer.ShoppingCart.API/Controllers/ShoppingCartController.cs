@@ -45,7 +45,7 @@ public class ShoppingCartController : ControllerBase
     
     [HttpPost]
     [ProducesResponseType(typeof(CreateShoppingCartResponse), 201)]
-    public async Task<ActionResult> CreateAnonymousShoppingCart([FromServices] ICreateCustomerShoppingCartUseCase useCase, [FromBody] CreateShoppingCartRequest request, CancellationToken cancellationToken = default)
+    public async Task<ActionResult> CreateCustomerShoppingCart([FromServices] ICreateCustomerShoppingCartUseCase useCase, [FromBody] CreateShoppingCartRequest request, CancellationToken cancellationToken = default)
     {
         var response = await useCase.CreateCustomerShoppingCart(request, cancellationToken);
 
@@ -113,7 +113,7 @@ public class ShoppingCartController : ControllerBase
 
     [HttpPatch]
     [Route("{shoppingCartId:guid}/item/{cartItemId:guid}/decremented")]
-    public async Task<IActionResult> IncrementTheQuantityOfTheCartItem([FromServices] IDecrementTheQuantityOfTheCartItemUseCase useCase, Guid shoppingCartId, Guid cartItemId, [FromBody]DecrementTheQuantityOfTheCartItemRequest request, CancellationToken cancellationToken = default)
+    public async Task<IActionResult> DecrementTheQuantityOfTheCartItem([FromServices] IDecrementTheQuantityOfTheCartItemUseCase useCase, Guid shoppingCartId, Guid cartItemId, [FromBody]DecrementTheQuantityOfTheCartItemRequest request, CancellationToken cancellationToken = default)
     {
         if (shoppingCartId != request.ShoppingCartId || cartItemId != request.CartItemId)
         {
