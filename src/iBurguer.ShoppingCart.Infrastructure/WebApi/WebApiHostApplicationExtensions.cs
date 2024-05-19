@@ -2,9 +2,11 @@ using iBurguer.Menu.Infrastructure.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace iBurguer.ShoppingCart.Infrastructure.WebApi;
 
+[ExcludeFromCodeCoverage]
 public static class WebApiHostApplicationExtensions
 {
 
