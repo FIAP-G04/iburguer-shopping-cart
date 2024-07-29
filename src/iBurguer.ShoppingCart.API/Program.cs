@@ -2,6 +2,7 @@ using iBurguer.ShoppingCart.Infrastructure.Http;
 using iBurguer.ShoppingCart.Infrastructure.IoC;
 using iBurguer.ShoppingCart.Infrastructure.Redis;
 using iBurguer.ShoppingCart.Infrastructure.Repositories;
+using iBurguer.ShoppingCart.Infrastructure.SQSService;
 using iBurguer.ShoppingCart.Infrastructure.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder
     .AddRestClient()
     .AddRedis()
+    .AddSQS(builder.Configuration)
     .AddRepositories()
     .AddWebApi()
     .AddUseCases();

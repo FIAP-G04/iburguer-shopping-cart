@@ -107,8 +107,6 @@ public class Cart : Entity<Guid>, IAggregateRoot
         UnableToCloseWithoutAnyCartItemsException.ThrowIf(!Items.Any());
 
         Closed = true;
-        
-        RaiseEvent(new CartClosedDomainEvent(Id));
     }
 
     public void UpdateItemPriceThroughProduct(Guid product, Price price)
