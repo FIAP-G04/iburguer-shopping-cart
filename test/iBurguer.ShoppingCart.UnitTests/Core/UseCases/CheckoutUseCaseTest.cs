@@ -1,4 +1,5 @@
-﻿using iBurguer.ShoppingCart.Core.Domain;
+﻿using iBurguer.ShoppingCart.Core.Abstractions;
+using iBurguer.ShoppingCart.Core.Domain;
 using iBurguer.ShoppingCart.Core.Gateways;
 using iBurguer.ShoppingCart.Core.UseCases.Checkout;
 using Moq;
@@ -10,13 +11,15 @@ namespace iBurguer.ShoppingCart.UnitTests.Core.UseCases
     {
         private readonly Mock<IShoppingCartRepository> _repositoryMock;
         private readonly Mock<IOrderGateway> _gatewayMock;
+        private readonly Mock<ISQSService> _sqsService;
         private readonly CheckoutUseCase _useCase;
 
         public CheckoutUseCaseTest()
         {
             _repositoryMock = new Mock<IShoppingCartRepository>();
             _gatewayMock = new Mock<IOrderGateway>();
-            _useCase = new CheckoutUseCase(_repositoryMock.Object, _gatewayMock.Object);
+            _sqsService = new Mock<ISQSService>();
+            _useCase = new CheckoutUseCase(_repositoryMock.Object, _gatewayMock.Object, _sqsService.Object);
         }
 
         [Fact]
@@ -77,14 +80,14 @@ namespace iBurguer.ShoppingCart.UnitTests.Core.UseCases
         public void Constructor_ShouldThrowArgumentNullException_WhenRepositoryIsNull()
         {
             // Arrange & Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new CheckoutUseCase(null, _gatewayMock.Object));
+            Assert.Throws<ArgumentNullException>(() => new CheckoutUseCase(null, _gatewayMock.Object, _sqsService.Object));
         }
 
         [Fact]
         public void Constructor_ShouldThrowArgumentNullException_WhenGatewayIsNull()
         {
             // Arrange & Act & Assert
-            Assert.Throws<ArgumentNullException>(() => new CheckoutUseCase(_repositoryMock.Object, null));
+            Assert.Throws<ArgumentNullException>(() => new CheckoutUseCase(_repositoryMock.Object, null, _sqsService.Object));
         }
     }
 }

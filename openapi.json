@@ -1,0 +1,609 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "iBurguer Shopping Cart API",
+      "description": "The ShoppingCart Management API offers a robust solution for managing shopping carts in fast food iBurguer. This RESTful API provides a suite of features designed to facilitate efficient cart management, order generating, and customer engagement.",
+      "version": "v1"
+    },
+    "paths": {
+      "/api/carts/{shoppingCartId}": {
+        "get": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "summary": "Get shopping cart by ID",
+          "description": "Returns the shopping cart with the specified ID.",
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation. Returns the shopping cart.",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ShoppingCartResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ShoppingCartResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ShoppingCartResponse"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Item not found. The specified shopping cart ID does not exist."
+            },
+            "500": {
+              "description": "Internal server error. Something went wrong on the server side."
+            }
+          }
+        }
+      },
+      "/api/carts": {
+        "post": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateShoppingCartRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateShoppingCartRequest"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateShoppingCartRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateShoppingCartResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateShoppingCartResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateShoppingCartResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/api/carts/anonymous": {
+        "post": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "summary": "Creates an anonymous shopping cart.",
+          "description": "Creates a new shopping cart for anonymous users.",
+          "responses": {
+            "201": {
+              "description": "Shopping cart created successfully.",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateAnonymousShoppingCartResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateAnonymousShoppingCartResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CreateAnonymousShoppingCartResponse"
+                  }
+                }
+              }
+            },
+            "422": {
+              "description": "Invalid request. Missing or invalid parameters."
+            },
+            "500": {
+              "description": "Internal server error. Something went wrong on the server side."
+            }
+          }
+        }
+      },
+      "/api/carts/{shoppingCartId}/items": {
+        "post": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddItemToShoppingCartRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddItemToShoppingCartRequest"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddItemToShoppingCartRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        },
+        "delete": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/carts/{shoppingCartId}/items/{cartItemId}": {
+        "delete": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            {
+              "name": "cartItemId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/carts/{shoppingCartId}/items/{cartItemId}/incremented": {
+        "patch": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            {
+              "name": "cartItemId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncrementTheQuantityOfTheCartItemRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncrementTheQuantityOfTheCartItemRequest"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncrementTheQuantityOfTheCartItemRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/carts/{shoppingCartId}/item/{cartItemId}/decremented": {
+        "patch": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            },
+            {
+              "name": "cartItemId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecrementTheQuantityOfTheCartItemRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecrementTheQuantityOfTheCartItemRequest"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecrementTheQuantityOfTheCartItemRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/carts/{shoppingCartId}/checkout": {
+        "patch": {
+          "tags": [
+            "ShoppingCart"
+          ],
+          "parameters": [
+            {
+              "name": "shoppingCartId",
+              "in": "path",
+              "required": true,
+              "style": "simple",
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutRequest"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckoutRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Created",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CheckoutResponse"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CheckoutResponse"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CheckoutResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "AddItemToShoppingCartRequest": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "productId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "quantity": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "CheckoutRequest": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "orderType": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "CheckoutResponse": {
+          "type": "object",
+          "properties": {
+            "orderId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "orderNumber": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "pickupCode": {
+              "type": "string",
+              "nullable": true
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "additionalProperties": false
+        },
+        "CreateAnonymousShoppingCartResponse": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "additionalProperties": false
+        },
+        "CreateShoppingCartRequest": {
+          "type": "object",
+          "properties": {
+            "customerId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "additionalProperties": false
+        },
+        "CreateShoppingCartResponse": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "customerId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "additionalProperties": false
+        },
+        "DecrementTheQuantityOfTheCartItemRequest": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "cartItemId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "quantity": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "IncrementTheQuantityOfTheCartItemRequest": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "cartItemId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "quantity": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "ShoppingCartItemResponse": {
+          "type": "object",
+          "properties": {
+            "cartItemId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "productId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "productName": {
+              "type": "string",
+              "nullable": true
+            },
+            "productType": {
+              "type": "string",
+              "nullable": true
+            },
+            "unitPrice": {
+              "type": "number",
+              "format": "double"
+            },
+            "quantity": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "subtotal": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "additionalProperties": false
+        },
+        "ShoppingCartResponse": {
+          "type": "object",
+          "properties": {
+            "shoppingCartId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "customerId": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": true
+            },
+            "closed": {
+              "type": "boolean"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "total": {
+              "type": "number",
+              "format": "double"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ShoppingCartItemResponse"
+              },
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }
