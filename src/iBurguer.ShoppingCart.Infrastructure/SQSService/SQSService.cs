@@ -5,15 +5,12 @@ using iBurguer.ShoppingCart.Core.Abstractions;
 using iBurguer.ShoppingCart.Infrastructure.SQS;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon;
+using System.Diagnostics.CodeAnalysis;
 
 namespace iBurguer.ShoppingCart.Infrastructure.SQSService
 {
+    [ExcludeFromCodeCoverage]
     public class SQSService : ISQSService
     {
         private readonly IAmazonSQS _client;

@@ -1,5 +1,8 @@
-﻿namespace iBurguer.ShoppingCart.Infrastructure.SQS
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace iBurguer.ShoppingCart.Infrastructure.SQS
 {
+    [ExcludeFromCodeCoverage]
     public class SQSConfiguration
     {
         public string Region { get; set; }
