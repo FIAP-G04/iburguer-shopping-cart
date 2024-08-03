@@ -2,7 +2,6 @@
 using Amazon.SQS.Model;
 using Amazon.SQS;
 using iBurguer.ShoppingCart.Core.Abstractions;
-using iBurguer.ShoppingCart.Infrastructure.SQS;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Amazon;

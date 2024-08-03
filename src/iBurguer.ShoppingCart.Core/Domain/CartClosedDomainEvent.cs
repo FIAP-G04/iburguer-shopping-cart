@@ -2,34 +2,33 @@ using iBurguer.ShoppingCart.Core.Abstractions;
 
 namespace iBurguer.ShoppingCart.Core.Domain;
 
-public record CartClosedDomainEvent() : IDomainEvent
+public record CartClosedDomainEvent : IDomainEvent
 {
-    public string OrderType { get; set; } = string.Empty;
-    public string PaymentMethod { get; init; } = string.Empty;
+    public string OrderType { get; init; } = string.Empty;
+    public string PaymentMethod { get; init; } = "QRCode";
     public Guid? BuyerId { get; init; }
-    public IList<OrderItemRequest> Items { get; set; } = new List<OrderItemRequest>();
+    public IList<OrderItemRequest> Items { get; init; } = new List<OrderItemRequest>();
 
-    public static CartClosedDomainEvent Convert(Cart shoppingCart, string orderType)
+    public static CartClosedDomainEvent FromCart(Cart shoppingCart, string orderType)
     {
         return new CartClosedDomainEvent
         {
             OrderType = orderType,
-            PaymentMethod = "QRCode",
             BuyerId = shoppingCart.CustomerId,
-            Items = shoppingCart.Items.Select(i => OrderItemRequest.Convert(i)).ToList()
+            Items = shoppingCart.Items.Select(OrderItemRequest.FromCartItem).ToList()
         };
     }
 }
 
 public record OrderItemRequest
 {
-    public Guid ProductId { get; set; }
-    public string ProductName { get; set; } = string.Empty;
-    public string ProductType { get; set; } = string.Empty;
-    public decimal UnitPrice { get; set; }
-    public ushort Quantity { get; set; }
+    public Guid ProductId { get; init; }
+    public string ProductName { get; init; } = string.Empty;
+    public string ProductType { get; init; } = string.Empty;
+    public decimal UnitPrice { get; init; }
+    public ushort Quantity { get; init; }
 
-    public static OrderItemRequest Convert(CartItem item)
+    public static OrderItemRequest FromCartItem(CartItem item)
     {
         return new OrderItemRequest
         {

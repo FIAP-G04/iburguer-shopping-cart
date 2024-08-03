@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace iBurguer.ShoppingCart.Infrastructure.Http.Menu;
+namespace iBurguer.ShoppingCart.Infrastructure.Http.Order;
 
 [ExcludeFromCodeCoverage]
 public class OrderApiConfiguration : ApiConfiguration

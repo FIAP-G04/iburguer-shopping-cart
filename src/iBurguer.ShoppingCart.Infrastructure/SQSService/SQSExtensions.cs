@@ -1,5 +1,4 @@
 ﻿using iBurguer.ShoppingCart.Core.Abstractions;
-using iBurguer.ShoppingCart.Infrastructure.SQS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

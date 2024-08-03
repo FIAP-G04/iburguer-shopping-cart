@@ -1,4 +1,4 @@
-using iBurguer.Menu.Infrastructure.Swagger;
+using iBurguer.ShoppingCart.Infrastructure.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

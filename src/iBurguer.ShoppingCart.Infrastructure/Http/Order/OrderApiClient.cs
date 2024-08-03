@@ -3,7 +3,6 @@ using System.Text.Json;
 using iBurguer.ShoppingCart.Core.Domain;
 using iBurguer.ShoppingCart.Core.Gateways;
 using iBurguer.ShoppingCart.Core.UseCases.Checkout;
-using iBurguer.ShoppingCart.Infrastructure.Http.Menu;
 using Microsoft.Extensions.Logging;
 
 namespace iBurguer.ShoppingCart.Infrastructure.Http.Order;

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace iBurguer.ShoppingCart.Infrastructure.SQS
+namespace iBurguer.ShoppingCart.Infrastructure.SQSService
 {
     [ExcludeFromCodeCoverage]
     public class SQSConfiguration

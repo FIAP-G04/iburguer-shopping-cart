@@ -34,7 +34,7 @@ public class CheckoutUseCase : ICheckoutUseCase
 
         shoppingCart!.Close();
 
-        var cartClosedEvent = CartClosedDomainEvent.Convert(shoppingCart, request.OrderType);
+        var cartClosedEvent = CartClosedDomainEvent.FromCart(shoppingCart, request.OrderType);
         await _sqsService.SendMessage(cartClosedEvent, cancellation);
         
         await _repository.Save(shoppingCart, cancellation);
