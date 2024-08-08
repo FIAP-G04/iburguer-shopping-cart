@@ -1,6 +1,5 @@
 ﻿using iBurguer.ShoppingCart.Core.Domain;
 using iBurguer.ShoppingCart.Core.UseCases.Checkout;
-using iBurguer.ShoppingCart.Infrastructure.Http.Menu;
 using iBurguer.ShoppingCart.Infrastructure.Http.Order;
 using Microsoft.Extensions.Logging;
 using Moq.Protected;
